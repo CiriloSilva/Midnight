@@ -1,0 +1,42 @@
+body{
+	background-color: #182430;
+}
+/*Barra do menu*/
+.navbar {
+	padding-left: 100px;
+	padding-right: 100px;
+}
+.navbar-dark {
+	background-color: #1b2836 !important;
+}
+.bg-dark {
+	background-color:  #1b2836 !important;
+}
+@media screen and (max-width: 800px) {
+	.navbar {
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+}
+.src {
+	background-color: #141d26;
+	border: none;
+}
+
+.src:focus {
+	background-color: #141d26;
+	border: none;
+}
+
+/*Container*/
+.top {
+	margin-top: 50px;
+}
+.btn-danger {
+	background-color: transparent;
+	border-color: transparent;
+}
+.btn-danger:hover {
+	background-color: #b00606;
+	border-color: #b00606;
+}

@@ -1,0 +1,113 @@
+CREATE DATABASE midnight;
+
+CREATE TABLE tipos_categoria(
+    id_tipo_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    categoria VARCHAR(30)
+);
+
+CREATE TABLE filmes(
+    id_filme INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    titulo VARCHAR(50) NOT NULL,
+    sinopse TEXT NOT NULL,
+    foto VARCHAR(32) NOT NULL,
+    data_lancamento DATE NOT NULL 
+);
+
+CREATE TABLE filme_categoria(
+    id_filme_categoria INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_categoria INT NOT NULL,
+    FOREIGN KEY(cod_categoria) REFERENCES tipos_categoria(id_tipo_categoria),
+    cod_filme INT NOT NULL,
+    FOREIGN KEY(cod_filme) REFERENCES filmes(id_filme)
+);
+
+CREATE TABLE tipos_usuario(
+    id_tipo_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    tipo_usuario VARCHAR(13)
+);
+
+CREATE TABLE usuarios(
+    id_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_tipo_usuario INT NOT NULL,
+    FOREIGN KEY(cod_tipo_usuario) REFERENCES tipos_usuario(id_tipo_usuario),
+    usuario VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    senha INT(32) NOT NULL,
+    foto VARCHAR(32) NOT NULL
+);
+
+CREATE TABLE acessos(
+    id_acesso INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_usuario INT NOT NULL,
+    FOREIGN KEY(cod_usuario) REFERENCES usuarios(id_usuario),
+    cod_filme INT NOT NULL,
+    FOREIGN KEY(cod_filme) REFERENCES filmes(id_filme),
+    data_acesso DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE comentarios(
+    id_comentario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_usuario INT NOT NULL,
+    FOREIGN KEY(cod_usuario) REFERENCES usuarios(id_usuario),
+    cod_filme INT NOT NULL,
+    FOREIGN KEY(cod_filme) REFERENCES filmes(id_filme),
+    data_comentario DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE favorito_usuario(
+	id_favorito_usuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_usuario INT NOT NULL,
+    FOREIGN KEY(cod_usuario) REFERENCES usuarios(id_usuario),
+    cod_filme INT NOT NULL,
+    FOREIGN KEY(cod_filme) REFERENCES filmes(id_filme),
+    data_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE noticias(
+    id_noticia INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_usuario INT NOT NULL,
+    FOREIGN KEY(cod_usuario) REFERENCES usuarios(id_usuario),
+    cod_filme INT NOT NULL,
+    FOREIGN KEY(cod_filme) REFERENCES filmes(id_filme),
+    titulo_noticia VARCHAR(50) NOT NULL,
+	noticia TEXT NOT NULL,
+    data_noticia DATETIME NOT NULL
+);
+
+CREATE TABLE tipos_item(
+    id_tipo_item INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    tipo_item VARCHAR(40) NOT NULL
+);
+
+CREATE TABLE item(
+	id_item INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nome_item VARCHAR(50) NOT NULL,
+    valor_item INT NOT NULL,
+    descricao TEXT NOT NULL,
+    foto_item VARCHAR(32) NOT NULL
+);
+
+CREATE TABLE item_tipo(
+	id_item_tipo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+   	cod_item INT NOT NULL,
+    FOREIGN KEY(cod_item) REFERENCES item(id_item),
+    cod_tipo INT NOT NULL,
+    FOREIGN KEY(cod_tipo) REFERENCES tipos_item(id_tipo_item)
+);
+
+CREATE TABLE compras(
+	id_compra INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_usuario INT NOT NULL,
+    FOREIGN KEY(cod_usuario) REFERENCES usuarios(id_usuario),
+    valor_compra INT,
+    data_compra DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE itens_comprados(
+	id_itens_comprados INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    cod_item INT NOT NULL,
+    FOREIGN KEY(cod_item) REFERENCES item(id_item),
+    cod_compra INT NOT NULL,
+    FOREIGN KEY(cod_compra) REFERENCES compras(id_compra),
+    quantidade INT NOT NULL
+);
